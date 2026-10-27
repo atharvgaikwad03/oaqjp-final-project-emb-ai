@@ -8,34 +8,23 @@ app = Flask("Emotion Detector")
 
 
 @app.route("/emotionDetector")
-def sent_analyzer():
-    """
-    Analyse the emotion of the text passed as a query parameter.
-    Returns a formatted string with emotion scores and dominant emotion.
-    """
-    text_to_analyse = request.args.get('textToAnalyse')
-
-    if not text_to_analyse or text_to_analyse.strip() == "":
-        return "Invalid text! Please try again."
-
-    response = emotion_detector(text_to_analyse)
+def emotion_detector_function():
+    """Analyse the emotion of the text passed as a query parameter."""
+    text_to_analyze = request.args.get('textToAnalyze')
+    response = emotion_detector(text_to_analyze)
 
     if response['dominant_emotion'] is None:
-        return "Invalid text! Please try again."
+        response_text = "Invalid Input! Please try again."
+    else:
+        response_text = (
+            f"For the given statement, the system response is 'anger': "
+            f"{response['anger']}, 'disgust': {response['disgust']}, "
+            f"'fear': {response['fear']}, 'joy': {response['joy']}, "
+            f"'sadness': {response['sadness']}. The dominant emotion is "
+            f"{response['dominant_emotion']}."
+        )
 
-    anger = response['anger']
-    disgust = response['disgust']
-    fear = response['fear']
-    joy = response['joy']
-    sadness = response['sadness']
-    dominant = response['dominant_emotion']
-
-    return (
-        f"For the given statement, the system response is "
-        f"'anger': {anger}, 'disgust': {disgust}, 'fear': {fear}, "
-        f"'joy': {joy} and 'sadness': {sadness}. "
-        f"The dominant emotion is <b>{dominant}</b>."
-    )
+    return response_text
 
 
 @app.route("/")

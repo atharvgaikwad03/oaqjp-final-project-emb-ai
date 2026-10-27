@@ -1,5 +1,7 @@
 # Final Project
 
+Repository for final project
+
 This is the final project for the AI-Based Web Application Development course.
 
 ## Emotion Detection Application
